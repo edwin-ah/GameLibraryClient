@@ -1,4 +1,5 @@
 ﻿using GameLibraryClient.Models;
+using MvvmHelpers.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Popups;
 
 namespace GameLibraryClient.ViewModels
@@ -44,5 +46,25 @@ namespace GameLibraryClient.ViewModels
             }
         }
 
+        public async Task<bool> DeleteGame()
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                string url = BASE_URL + $"Games/{GameIdentifier}";
+                HttpResponseMessage response = await client.DeleteAsync(new Uri(url));
+                if(!response.IsSuccessStatusCode)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
 }

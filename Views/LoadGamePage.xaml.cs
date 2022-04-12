@@ -58,5 +58,33 @@ namespace GameLibraryClient.Views
         {
             this.Frame.Navigate(typeof(AddGamePage));
         }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog deleteGameDialog = new ContentDialog()
+            {
+                Title = "Delete game?",
+                Content = "Are you sure that you want to delete this game?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteGameDialog.ShowAsync();
+            if(result != ContentDialogResult.Primary)
+            {
+                return;
+            }
+
+            bool isDeleted = await vm.DeleteGame();
+            if(isDeleted)
+            {
+                this.Frame.Navigate(typeof(MainPage));
+            }
+            else
+            {
+                var dialog = new MessageDialog("An error occured. Could not load game.");
+                await dialog.ShowAsync();
+            }
+        }
     }
 }

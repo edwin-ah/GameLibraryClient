@@ -10,58 +10,73 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Frame>
-            <StackPanel>
-                <StackPanel Margin="0,30">
-                    <TextBlock Text="Filter games" HorizontalAlignment="Center" FontSize="24" FontWeight="SemiBold"/>
-                    <TextBox Header="Enter game name" PlaceholderText="Name" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed">
+            <CommandBar.Content>
+                <Button x:Name="BackButton" Click="BackButton_Click"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}" 
+                        ToolTipService.ToolTip="Back" 
+                        VerticalAlignment="Top"/>
+            </CommandBar.Content>
+
+            <AppBarButton x:Name="AddButton" Click="AddButton_Click"
+                          Icon="Add" Label="Add" ToolTipService.ToolTip="Add Game"/>
+        </CommandBar>
+        <StackPanel>
+            <StackPanel Margin="0,30">
+                <TextBlock Text="Filter games" HorizontalAlignment="Center" FontSize="24" FontWeight="SemiBold"/>
+                <TextBox Header="Enter game name" PlaceholderText="Name" 
                              Margin="5,0"
                              Text="{x:Bind vm.GameName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                              Width="300"/>
-                    <TextBox Header="Enter company" PlaceholderText="Company"
+                <TextBox Header="Enter company" PlaceholderText="Company"
                              Margin="5,0"
                              Text="{x:Bind vm.GameCompany, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                              Width="300"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="All games" Command="{x:Bind vm.GetAllGamesCommand}" 
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="All games" Command="{x:Bind vm.GetAllGamesCommand}" 
                                 Margin="0,10,10,0" Width="100"
                                 Background="#1B2845" Foreground="#fff"/>
-                        <Button Content="Filter" Command="{x:Bind vm.GetFilteredGamesCommand}" 
+                    <Button Content="Filter" Command="{x:Bind vm.GetFilteredGamesCommand}" 
                                 Margin="10,10,0,0" Width="100"
                                 Background="#5899E2" Foreground="#fff"/>
-                    </StackPanel>
                 </StackPanel>
-                <StackPanel VerticalAlignment="Center" Margin="50">
-                    <ScrollViewer>
-                        <ListView x:Name="list_Games" 
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center" Margin="50">
+                <ScrollViewer>
+                    <ListView x:Name="list_Games" 
                                   ItemsSource="{x:Bind vm.Games, Mode=OneWay}"
                                   SelectionMode="Single"
                                   SelectionChanged="list_Games_SelectionChanged">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="0,0,0,15" Padding="10" BorderBrush="White" BorderThickness="0 0 0 1">
-                                        <StackPanel Orientation="Vertical">
-                                            <TextBlock>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,15" Padding="10" BorderBrush="White" BorderThickness="0 0 0 1">
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock>
                                                 <Run FontSize="24" Text="{Binding Name}"></Run>
                                                 <Run>Price: </Run>
                                                 <Run Text="{Binding Price}"></Run>
                                                 <LineBreak />
                                                 <Run>Company: </Run>
                                                 <Run Text="{Binding Company}"></Run>
-                                            </TextBlock>
-                                        </StackPanel>
+                                        </TextBlock>
                                     </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </ScrollViewer>
-                </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
             </StackPanel>
-        </Frame>
+        </StackPanel>
     </Grid>
 </Page>

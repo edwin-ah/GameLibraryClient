@@ -53,5 +53,10 @@ namespace GameLibraryClient.Views
         {
             App.TryGoBack();
         }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(AddGamePage));
+        }
     }
 }

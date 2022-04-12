@@ -48,7 +48,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel VerticalAlignment="Center" Margin="50">
-                <ScrollViewer>
+                <ScrollViewer Height="600" VerticalScrollBarVisibility="Auto">
                     <ListView x:Name="list_Games" 
                                   ItemsSource="{x:Bind vm.Games, Mode=OneWay}"
                                   SelectionMode="Single"

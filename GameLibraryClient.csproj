@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Models\AddGame.cs" />
     <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\PaginatedResult.cs" />
     <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\GameListViewModel.cs" />
     <Compile Include="ViewModels\LoadGameViewModel.cs" />

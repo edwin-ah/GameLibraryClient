@@ -56,5 +56,17 @@ namespace GameLibraryClient
         {
             this.Frame.Navigate(typeof(AddGamePage));
         }
+
+        private async void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.CurrentPage++;
+            await vm.GetAllGames();
+        }
+
+        private async void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.CurrentPage--;
+            await vm.GetAllGames();
+        }
     }
 }

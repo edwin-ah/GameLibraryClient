@@ -1,7 +1,11 @@
-﻿using System;
+﻿using GameLibraryClient.Models;
+using GameLibraryClient.ViewModels;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -22,9 +26,17 @@ namespace GameLibraryClient
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public GameListViewModel vm;
         public MainPage()
         {
             this.InitializeComponent();
+            vm = new GameListViewModel();
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            await vm.GetAllGames();
         }
     }
 }

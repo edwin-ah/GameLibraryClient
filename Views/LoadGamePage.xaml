@@ -52,6 +52,7 @@
                         <Run Text="{Binding Game.Company}"></Run>
                 </TextBlock>
             </StackPanel>
+            <Button x:Name="DeleteButton" Content="Delete Game" Background="#990000" HorizontalAlignment="Center" Click="DeleteButton_Click"/>
         </StackPanel>
     </Grid>
 </Page>

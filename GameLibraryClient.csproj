@@ -119,10 +119,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddGame.cs" />
     <Compile Include="Models\Game.cs" />
+    <Compile Include="ViewModels\AddGameViewModel.cs" />
     <Compile Include="ViewModels\GameListViewModel.cs" />
     <Compile Include="ViewModels\LoadGameViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\AddGamePage.xaml.cs">
+      <DependentUpon>AddGamePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoadGamePage.xaml.cs">
       <DependentUpon>LoadGamePage.xaml</DependentUpon>
     </Compile>
@@ -151,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\AddGamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoadGamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

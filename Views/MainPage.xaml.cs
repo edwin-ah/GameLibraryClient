@@ -46,5 +46,15 @@ namespace GameLibraryClient
             string gameId = game.Identifier;
             this.Frame.Navigate(typeof(LoadGamePage), gameId);
         }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.TryGoBack();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(AddGamePage));
+        }
     }
 }

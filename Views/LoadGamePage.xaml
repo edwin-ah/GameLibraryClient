@@ -28,7 +28,8 @@
                         VerticalAlignment="Top"/>
             </CommandBar.Content>
 
-            <AppBarButton Icon="Add" Label="Save" ToolTipService.ToolTip="Add Game"/>
+            <AppBarButton x:Name="AddButton" Click="AddButton_Click"
+                          Icon="Add" Label="Add" ToolTipService.ToolTip="Add Game"/>
         </CommandBar>
         
         <StackPanel Margin="0,30">

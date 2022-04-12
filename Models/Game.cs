@@ -8,54 +8,14 @@ using System.Threading.Tasks;
 
 namespace GameLibraryClient.Models
 {
-    public class Game : INotifyPropertyChanged
+    public class Game
     {
-        // public string Identifier { get; set; }
-        private string identifier;
+        public string Identifier { get; set; }
 
-        public string Identifier
-        {
-            get { return identifier; }
-            set { identifier = value; }
-        }
+        public string Name { get; set; }
 
-        private string name;
+        public string Company { get; set; }
 
-        public string Name
-        {
-            get { return name; }
-            set 
-            {
-                name = value; 
-                RaisePropertyChanged("Name");
-            }
-        }
-
-        //public string Name { get; set; }
-        private string company;
-
-        public string Company
-        {
-            get { return company; }
-            set { company = value; }
-        }
-        private double price;
-
-        public double Price
-        {
-            get { return price; }
-            set { price = value; }
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
+        public double Price { get; set; }
     }
 }

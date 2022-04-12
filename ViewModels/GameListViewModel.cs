@@ -20,6 +20,32 @@ namespace GameLibraryClient.ViewModels
     {
         public ObservableRangeCollection<Game> Games { get; set; } = new ObservableRangeCollection<Game>();
 
+        
+        // On first call to Api we want the first page
+        private int currentPage = 1;
+
+        public int CurrentPage
+        {
+            get => currentPage;
+            set => SetProperty(ref currentPage, value);
+        }
+
+        private bool hasNextPage;
+
+        public bool HasNextPage
+        {
+            get => hasNextPage;
+            set => SetProperty(ref hasNextPage, value);
+        }
+
+        private bool hasPrevPage;
+
+        public bool HasPrevPage
+        {
+            get => hasPrevPage; 
+            set => SetProperty(ref hasPrevPage, value);
+        }
+
         private string gameName = "";
 
         public string GameName
@@ -48,7 +74,7 @@ namespace GameLibraryClient.ViewModels
         {
             try
             {
-                string url = BASE_URL + "Games";
+                string url = BASE_URL + $"Games/AllGames/{CurrentPage}";
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.GetAsync(new Uri(url));
 
@@ -56,8 +82,10 @@ namespace GameLibraryClient.ViewModels
                 {
                     Games.Clear();
                     var content = await response.Content.ReadAsStringAsync();
-                    var gameList = JsonConvert.DeserializeObject<List<Game>>(content);
-                    Games.AddRange(gameList);
+                    var paginatedResult = JsonConvert.DeserializeObject<PaginatedResult>(content);
+                    Games.AddRange(paginatedResult.Games);
+                    CurrentPage = paginatedResult.CurrentPage;
+                    CheckPages(paginatedResult.Pages);
                 }
             }
             catch(Exception ex)
@@ -70,6 +98,11 @@ namespace GameLibraryClient.ViewModels
 
         public async Task GetFilteredGames()
         {
+            // Reset current page and hide buttons
+            CurrentPage = 1;
+            HasNextPage = false;
+            HasNextPage = false;
+
             try
             {
                 string url = BASE_URL + $"Games/ListGames?name={GameName}&company={GameCompany}";
@@ -89,6 +122,26 @@ namespace GameLibraryClient.ViewModels
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 var dialog = new MessageDialog("An error occured. No games could be fetched.");
                 await dialog.ShowAsync();
+            }
+        }
+
+        private void CheckPages(int totalPages)
+        {
+            if(CurrentPage < totalPages)
+            {
+                HasNextPage = true;
+            }
+            else
+            {
+                HasNextPage= false;
+            }
+            if(CurrentPage > 1)
+            {
+                HasPrevPage = true;
+            }
+            else
+            {
+                HasPrevPage= false;
             }
         }
     }

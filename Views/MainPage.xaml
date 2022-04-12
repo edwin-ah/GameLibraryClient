@@ -47,6 +47,10 @@
                                 Background="#5899E2" Foreground="#fff"/>
                 </StackPanel>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Visibility="{x:Bind vm.HasPrevPage, Mode=OneWay}" x:Name="PrevButton" Content="Prev Page" Click="PrevButton_Click"/>
+                <Button Visibility="{x:Bind vm.HasNextPage, Mode=OneWay}" x:Name="NextButton" Content="Next Page" Click="NextButton_Click"/>
+            </StackPanel>
             <StackPanel VerticalAlignment="Center" Margin="50">
                 <ScrollViewer Height="600" VerticalScrollBarVisibility="Auto">
                     <ListView x:Name="list_Games" 

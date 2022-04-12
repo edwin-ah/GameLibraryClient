@@ -1,5 +1,6 @@
 ﻿using GameLibraryClient.Models;
 using GameLibraryClient.ViewModels;
+using GameLibraryClient.Views;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace GameLibraryClient
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public GameListViewModel vm;
+        GameListViewModel vm;
         public MainPage()
         {
             this.InitializeComponent();
@@ -37,6 +38,13 @@ namespace GameLibraryClient
         {
             base.OnNavigatedTo(e);
             await vm.GetAllGames();
+        }
+
+        private void list_Games_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Game game = (Game)list_Games.SelectedItem;
+            string gameId = game.Identifier;
+            this.Frame.Navigate(typeof(LoadGamePage), gameId);
         }
     }
 }

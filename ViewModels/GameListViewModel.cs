@@ -63,7 +63,7 @@ namespace GameLibraryClient.ViewModels
             catch(Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                var dialog = new MessageDialog("Ett fel uppstod det gick inte hämta några spel");
+                var dialog = new MessageDialog("An error occured. No games could be fetched.");
                 await dialog.ShowAsync();
             }
         }
@@ -87,7 +87,7 @@ namespace GameLibraryClient.ViewModels
             catch(Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                var dialog = new MessageDialog("Ett fel uppstod det gick inte hämta några spel");
+                var dialog = new MessageDialog("An error occured. No games could be fetched.");
                 await dialog.ShowAsync();
             }
         }

@@ -38,7 +38,13 @@ namespace GameLibraryClient.ViewModels
             set => SetProperty(ref price, value);
         }
 
-        public bool HasError { get; set; }
+        private bool hasError;
+
+        public bool HasError
+        {
+            get => hasError;
+            set => SetProperty(ref hasError, value);
+        }
 
         public ICommand StoreGameCommand { get; }
 
@@ -52,39 +58,39 @@ namespace GameLibraryClient.ViewModels
             try
             {
                 bool isPriceValid = await ValidatePrice();
-                if(!isPriceValid)
+                Game game = CreateGame();
+                if(!isPriceValid || game == null)
                 {
+                    HasError = true;
                     return;
                 }
+                HasError = false;
 
-                AddGame game = new AddGame()
+                AddGame newGame = new AddGame()
                 {
                     Identifier = Guid.NewGuid().ToString(),
-                    Game = CreateGame()
+                    Game = game
                 };
 
                 HttpClient client = new HttpClient();
-                string jsonString = JsonConvert.SerializeObject(game, Formatting.Indented);
+                string jsonString = JsonConvert.SerializeObject(newGame, Formatting.Indented);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 string url = BASE_URL + "Games";
                 var response = await client.PostAsync(url, content);
 
                 if(response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
-                    var dialog = new MessageDialog("The game was created!");
-                    await dialog.ShowAsync();
+                    await DisplayDialogMessage("The game was created!");
                 }
                 else
                 {
-                    var dialog = new MessageDialog("Could not create the game.");
-                    await dialog.ShowAsync();
+                    await DisplayDialogMessage("Could not create the game.");
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                var dialog = new MessageDialog("An error occured. Could not add game.");
-                await dialog.ShowAsync();
+                await DisplayDialogMessage("An error occured. Could not add game.");
             }
             
         }
@@ -102,6 +108,11 @@ namespace GameLibraryClient.ViewModels
 
         private Game CreateGame()
         {
+            if(string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Company))
+            {
+                return null;
+            }
+
             Game game = new Game()
             {
                 Name = Name,
@@ -109,6 +120,12 @@ namespace GameLibraryClient.ViewModels
                 Price = double.Parse(Price)
             };
             return game;
+        }
+
+        private async Task DisplayDialogMessage(string message)
+        {
+            var dialog = new MessageDialog(message);
+            await dialog.ShowAsync();
         }
     }
 }

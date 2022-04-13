@@ -37,6 +37,7 @@ namespace GameLibraryClient.Views
 
         private void GamePriceEntry_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
+            // Remove all chars that is not digit or '.'
             args.Cancel = args.NewText.Any(c => !char.IsDigit(c) && c != '.');
         }
     }

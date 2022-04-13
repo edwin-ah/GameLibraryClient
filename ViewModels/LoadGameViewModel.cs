@@ -37,12 +37,16 @@ namespace GameLibraryClient.ViewModels
                     var content = await response.Content.ReadAsStringAsync();
                     Game = JsonConvert.DeserializeObject<Game>(content);
                 }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(response.StatusCode);
+                    await DisplayDialogMessage("Something went wrong. Could not load game.");
+                }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                var dialog = new MessageDialog("An error occured. Could not load game.");
-                await dialog.ShowAsync();
+                await DisplayDialogMessage("Something went wrong. Could not load game.");
             }
         }
 
@@ -65,6 +69,12 @@ namespace GameLibraryClient.ViewModels
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return false;
             }
+        }
+
+        private async Task DisplayDialogMessage(string message)
+        {
+            var dialog = new MessageDialog(message);
+            await dialog.ShowAsync();
         }
     }
 }

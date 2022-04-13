@@ -20,7 +20,7 @@ namespace GameLibraryClient.ViewModels
     {
         public ObservableRangeCollection<Game> Games { get; set; } = new ObservableRangeCollection<Game>();
 
-        
+        #region PaginationProperties
         // On first call to Api we want the first page
         private int currentPage = 1;
 
@@ -45,7 +45,9 @@ namespace GameLibraryClient.ViewModels
             get => hasPrevPage; 
             set => SetProperty(ref hasPrevPage, value);
         }
+        #endregion
 
+        #region SearchProperties
         private string gameName = "";
 
         public string GameName
@@ -60,6 +62,7 @@ namespace GameLibraryClient.ViewModels
             get => gameCompany;
             set => SetProperty(ref gameCompany, value);
         }
+        #endregion
 
         public ICommand GetAllGamesCommand { get; }
         public ICommand GetFilteredGamesCommand { get; }
@@ -87,6 +90,12 @@ namespace GameLibraryClient.ViewModels
                     CurrentPage = paginatedResult.CurrentPage;
                     CheckPages(paginatedResult.Pages);
                 }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(response.StatusCode);
+                    var dialog = new MessageDialog("Something went wrong. No games could be fetched.");
+                    await dialog.ShowAsync();
+                }
             }
             catch(Exception ex)
             {
@@ -98,10 +107,7 @@ namespace GameLibraryClient.ViewModels
 
         public async Task GetFilteredGames()
         {
-            // Reset current page and hide buttons
-            CurrentPage = 1;
-            HasNextPage = false;
-            HasNextPage = false;
+            ResetPagination();
 
             try
             {
@@ -116,12 +122,16 @@ namespace GameLibraryClient.ViewModels
                     var gameList = JsonConvert.DeserializeObject<List<Game>>(content);
                     Games.AddRange(gameList);
                 }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(response.StatusCode);
+                    await DisplayDialogMessage("Something went wrong. No games could be fetched.");
+                }
             }
             catch(Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                var dialog = new MessageDialog("An error occured. No games could be fetched.");
-                await dialog.ShowAsync();
+                await DisplayDialogMessage("An error occured. No games could be fetched.");
             }
         }
 
@@ -143,6 +153,20 @@ namespace GameLibraryClient.ViewModels
             {
                 HasPrevPage= false;
             }
+        }
+
+        private void ResetPagination()
+        {
+            // Reset current page and hide buttons
+            CurrentPage = 1;
+            HasNextPage = false;
+            HasNextPage = false;
+        }
+
+        private async Task DisplayDialogMessage(string message)
+        {
+            var dialog = new MessageDialog(message);
+            await dialog.ShowAsync();
         }
     }
 }

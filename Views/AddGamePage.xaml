@@ -41,9 +41,14 @@
                      Margin="5,0" Width="300"
                      Text="{x:Bind vm.Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                      BeforeTextChanging="GamePriceEntry_BeforeTextChanging"/>
+            <TextBlock Visibility="{x:Bind vm.HasError, Mode=OneWay}"
+                       HorizontalAlignment="Center" Foreground="Red" Margin="5,0">
+                Please make sure no field is empty
+            </TextBlock>
             <Button Content="Store Game" Command="{x:Bind vm.StoreGameCommand}"
                     Margin="10,10,0,0" Width="100" HorizontalAlignment="Center"
                     Background="#5899E2" Foreground="#fff"/>
+            
         </StackPanel>
         
     </Grid>
